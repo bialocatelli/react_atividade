@@ -1,38 +1,54 @@
-import React from 'react';
+import React from 'react'
 import { Box, Grid, Typography } from '@material-ui/core'
 import GitHubIcon from '@mui/icons-material/GitHub';
-import LinkedInIcon from '@material-ui/icons/LinkedIn'
-import './Footer.css';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+
+import { useSelector } from 'react-redux'
+import { UserState } from '../../../store/tokens/userReducer'
 
 function Footer() {
-    return (
-        <>
+
+    const token = useSelector<UserState, UserState["tokens"]>(
+        (state) => state.tokens
+    )
+
+    var footerComponent
+
+    if (token !== "") {
+        footerComponent =
             <Grid container direction="row" justifyContent="center" alignItems="center">
                 <Grid alignItems="center" item xs={12}>
-                    <Box className='box1'>
+                    <Box style={{ backgroundColor: "#3F51B5", height: "120px" }}>
                         <Box paddingTop={1} display="flex" alignItems="center" justifyContent="center">
-                            <Typography variant="h5" align="center" gutterBottom className='textos'>Me siga nas redes sociais </Typography>
+                            <Typography variant="h5" align="center" gutterBottom style={{ color: "white" }}>Siga-nos nas redes sociais </Typography>
                         </Box>
-                        <a href="https://github.com/bialocatelli" target="_blank">
-                            <GitHubIcon className='redes' />
-                        </a>
-                        <a href="https://www.linkedin.com/in/beatriz-gon%C3%A7alves-locatelli-b01759209/" target="_blank">
-                            <LinkedInIcon className='redes' />
-                        </a>
+                        <Box display="flex" alignItems="center" justifyContent="center">
+                            <a href= "https://github.com/bialocatelli" target="_blank" rel="noopener noreferrer">
+                                <GitHubIcon style={{ fontSize: 60, color: "white" }} />
+                            </a>
+                            
+                            <a href="https://www.linkedin.com/in/beatriz-gon%C3%A7alves-locatelli-b01759209/" target="_blank" rel="noopener noreferrer">
+                                <LinkedInIcon style={{ fontSize: 60, color: "white" }} />
+                            </a>
+                        </Box>
                     </Box>
-
-                    <Box className='box2'>
+                    <Box style={{ backgroundColor: "#303F9F", height: "60px" }}>
                         <Box paddingTop={1}>
-                            <Typography variant="subtitle2" align="center" gutterBottom className='textos' >© 2020 Copyright:</Typography>
+                            <Typography variant="subtitle2" align="center" gutterBottom style={{ color: "white" }} >© 2020 Copyright:</Typography>
                         </Box>
                         <Box>
-                            <a target="_blank" href="https://brasil.generation.org">
-                                <Typography variant="subtitle2" gutterBottom className='textos' align="center">brasil.generation.org</Typography>
+                            <a target="_blank" href="https://brasil.generation.org" rel="noopener noreferrer">
+                                <Typography variant="subtitle2" gutterBottom style={{ color: "white" }} align="center">brasil.generation.org</Typography>
                             </a>
                         </Box>
                     </Box>
                 </Grid>
             </Grid>
+    }
+
+    return (
+        <>
+            {footerComponent}
         </>
     )
 }
