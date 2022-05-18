@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Box, Button, Card, CardActions, CardContent, Typography } from '@material-ui/core';
 import { useNavigate, useParams } from 'react-router-dom';
 import useLocalStorage from 'react-use-localstorage';
+import { UserState } from '../../../store/tokens/userReducer';
+import { toast } from 'react-toastify';
 
 import Postagem from '../../../models/Postagem';
 import { buscaId, deleteId } from '../../../services/Service';
@@ -10,7 +12,7 @@ import './DeletarPostagem.css';
 
 function DeletarPostagem() {
 
-    let history = useNavigate();
+    let navigate = useNavigate();
 
     const { id } = useParams<{ id: string }>();
 
@@ -20,9 +22,17 @@ function DeletarPostagem() {
 
     useEffect(() => {
         if (token === "") {
-            alert("Você precisa estar logado")
-            history("/login")
-
+          toast.info('Você precisa estar logado!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        })
+            navigate("/login")
+    
         }
     }, [token])
 
@@ -41,7 +51,7 @@ function DeletarPostagem() {
     }
 
     async function sim() {
-        history('/posts')
+        navigate('/posts')
 
         try {
             await deleteId(`/postagens/${id}`, {
@@ -56,7 +66,7 @@ function DeletarPostagem() {
     }
 
     function nao() {
-        history('/posts')
+        navigate('/posts')
     }
 
     return (

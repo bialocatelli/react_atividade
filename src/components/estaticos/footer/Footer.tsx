@@ -6,6 +6,7 @@ import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import { useSelector } from 'react-redux'
 import { UserState } from '../../../store/tokens/userReducer'
 
+
 function Footer() {
 
     const token = useSelector<UserState, UserState["tokens"]>(

@@ -2,10 +2,14 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import { Button, Container, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField, Typography } from '@material-ui/core'
 import { useNavigate, useParams } from 'react-router-dom'
 import useLocalStorage from 'react-use-localstorage'
+import { useSelector } from 'react-redux';
+import { UserState } from '../../../store/tokens/userReducer';
 
 import { busca, buscaId, post, put } from '../../../services/Service';
 import Tema from '../../../models/Tema'
 import Postagem from '../../../models/Postagem'
+import { toast } from 'react-toastify';
+
 
 import './CadastroPost.css'
 
@@ -17,7 +21,24 @@ function CadastroPostagem() {
 
     const [temas, setTemas] = useState<Tema[]>([])
 
-    const [token, setToken] = useLocalStorage('token')
+    const token = useSelector<UserState, UserState["tokens"]>(
+        (state) => state.tokens
+    );
+
+    useEffect(() => {
+        if (token == "") {
+            toast.info('Você precisa estar logado!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
+            history("/login")
+        }
+    }, [token])
 
     const [tema, setTema] = useState<Tema>({
         id: 0,
@@ -31,13 +52,6 @@ function CadastroPostagem() {
         data: '',
         tema: null
     })
-
-    useEffect(() => {
-        if (token === "") {
-            alert("Você precisa estar logado")
-            history("/login")
-        }
-    }, [token])
 
     useEffect(() => {
         setPostagem({
@@ -93,18 +107,24 @@ function CadastroPostagem() {
             }
 
         } else {
-            try {
-                await post(`/postagens`, postagem, setPostagem, {
-                    headers: {
-                        'Authorization': token
-                    }
-                })
-                alert('Postagem cadastrada com sucesso');
-            } catch (error) {
-                alert("Erro ao cadastrar, verifique os campos")
-            }
+            post(`/postagens`, postagem, setPostagem, {
+                headers: {
+                    'Authorization': token
+                }
+            })
+            toast.success('A postagem foi cadastrada com sucesso! ✔', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         }
         back()
+
+    
     }
 
     function back() {

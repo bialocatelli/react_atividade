@@ -12,6 +12,8 @@ import CadastroPost from './components/postagens/cadastroPost/CadastroPost';
 import CadastroTema from './components/temas/cadastroTema/CadastroTema';
 import DeletarPostagem from './components/postagens/deletarPostagem/DeletarPostagem';
 import DeletarTema from './components/temas/deletarTema/DeletarTema';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Login from './paginas/login/Login';
 import Home from './paginas/home/Home';
@@ -21,6 +23,7 @@ import Perfil from './paginas/perfil/Perfil';
 function App() {
   return (
     <Provider store={store}>
+      <ToastContainer />
       <Router>
         <Navbar />
 
@@ -33,7 +36,7 @@ function App() {
 
             <Route path="/home" element={<Home />} />
 
-            <Route path="/cadastro" element={<CadastroUsuario />} />
+            <Route path="/cadastrar" element={<CadastroUsuario />} />
 
             <Route path="/temas" element={<ListaTema />} />
 
